@@ -1,8 +1,13 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import mosaics from './data/mosaics.js';
+import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
+import connectDB from './config/db.js';
+
+import mosaicRoutes from './routes/mosaicRoutes.js';
 
 dotenv.config();
+
+connectDB();
 
 const app = express();
 
@@ -10,14 +15,11 @@ app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
-app.get('/api/mosaics', (req, res) => {
-    res.json(mosaics);
-});
+app.use('/api/mosaics', mosaicRoutes);
 
-app.get('/api/mosaics/:id', (req, res) => {
-    const mosaic = mosaics.find(m => m._id === req.params.id);
-    res.json(mosaic);
-});
+app.use(notFound);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
