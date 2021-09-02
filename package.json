@@ -1,0 +1,31 @@
+{
+  "name": "the-stone-magic",
+  "version": "1.0.0",
+  "description": "MERN virtual gallery app",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malykdim/the-stone-magic.git"
+  },
+  "author": "Albena Kostova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/malykdim/the-stone-magic/issues"
+  },
+  "homepage": "https://github.com/malykdim/the-stone-magic#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1",
+    "nodemon": "^2.0.12"
+  }
+}

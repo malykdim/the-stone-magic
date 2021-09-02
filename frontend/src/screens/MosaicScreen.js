@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
-import mosaics from '../mosaics';
+import axios from 'axios';
 
 const MosaicScreen = ({ match }) => {
-    const mosaic = mosaics.find((m) => m._id === match.params.id);
+    const [mosaic, setMosaic] = useState({});
+    
+    useEffect(() => {
+        const fetchMosaic = async () => {
+            const { data } = await axios.get(`/api/mosaics/${match.params.id}`);
+            
+            setMosaic(data);
+        };
+        
+        fetchMosaic();
+    }, [match]);
     
     return (
         <>

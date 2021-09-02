@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Mosaic from '../components/Mosaic';
-import mosaics from '../mosaics';
+import axios from 'axios';
 
 const HomeScreen = () => {
+    const [mosaics, setMosaics] = useState([]);
+    
+    useEffect(() => {
+        const fetchMosaics = async () => {
+            const { data } = await axios.get('/api/mosaics');
+            
+            setMosaics(data);
+        };
+        
+        fetchMosaics();
+    }, []);
+    
     return (
         <>
             <h1>Latest Panneaux</h1>
