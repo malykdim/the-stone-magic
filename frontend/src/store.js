@@ -1,10 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { mosaicListReducer } from './reducers/mosaicReducers.js';
+import { mosaicListReducer, mosaicDetailsReducer } from './reducers/mosaicReducers.js';
 
 const reducer = combineReducers({
-    mosaicList: mosaicListReducer
+    mosaicList: mosaicListReducer,
+    mosaicDetails: mosaicDetailsReducer,
 });
 
 const initialState = {};
