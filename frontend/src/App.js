@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HomeScreen from './screens/HomeScreen';
 import MosaicScreen from './screens/MosaicScreen';
+import CartScreen from './screens/CartScreen';
 
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
                 <Container>
                     <Route path='/' component={HomeScreen} exact />
                     <Route path='/panneau/:id' component={MosaicScreen} />
+                    <Route path='/cart/:id?' component={CartScreen} />
                 </Container>
             </main>
             <Footer />

@@ -10,7 +10,7 @@ const mosaics = [
         materials: 'amethyst, malachite',
         numReviews: 3,
         rating: 4,
-        countInStock: 0
+        countInStock: 3
     },
     {
         caption: 'Two',
@@ -36,7 +36,7 @@ const mosaics = [
         materials: 'amethyst, malachite',
         numReviews: 8,
         rating: 5,
-        countInStock: 1
+        countInStock: 2
     }
 ]
 
