@@ -7,6 +7,7 @@ import HomeScreen from './screens/HomeScreen';
 import MosaicScreen from './screens/MosaicScreen';
 import CartScreen from './screens/CartScreen';
 import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
             <main className="main py-3">
                 <Container>
                     <Route path='/login' component={LoginScreen} />
+                    <Route path='/register' component={RegisterScreen} />
                     <Route path='/panneau/:id' component={MosaicScreen} />
                     <Route path='/cart/:id?' component={CartScreen} />
                     <Route path='/' component={HomeScreen} exact />
