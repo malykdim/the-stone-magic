@@ -52,7 +52,7 @@ const RegisterScreen = ({ location, history }) => {
                         type='text' 
                         placeholder='Enter username' 
                         value={username} 
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setUsername(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
                 
