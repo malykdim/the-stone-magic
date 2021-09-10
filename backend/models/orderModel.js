@@ -8,11 +8,11 @@ const orderSchema = mongoose.Schema({
     },
     orderItems: [
         {
-            name: { type: String, required: true },
+            caption: { type: String, required: true },
             qty: { type: Number, required: true },
             image: { type: String, required: true },
             price: { type: Number, required: true },
-            product: { 
+            mosaic: { 
                 type: mongoose.Schema.Types.ObjectId, 
                 ref: 'Mosaic',
                 required: true 
@@ -27,7 +27,8 @@ const orderSchema = mongoose.Schema({
     },
     paymentMethod: {
         type: String, 
-        required: true
+        required: true,
+        default: 'PayPal'
     },
     paymentResult: {
         id: { type: String }, 
