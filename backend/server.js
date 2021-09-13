@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
-app.use('/api/mosaics', mosaicRoutes);
+app.use('/api/products', mosaicRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 

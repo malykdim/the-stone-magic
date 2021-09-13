@@ -25,4 +25,19 @@ const getMosaicById = asyncHandler(async (req, res) => {
     }
 });
 
-export { getMosaics, getMosaicById };
+// @desc    Delete a mosaic
+// @route   DELETE /api/products/:id
+// @access  Private/Admin
+const deleteMosaic = asyncHandler(async (req, res) => {
+    const mosaic = await Mosaic.findById(req.params.id);
+    
+    if (mosaic) {
+        await mosaic.remove();
+        res.json({ message: 'Mosaic removed' });
+    } else {
+        res.status(404);
+        throw new Error('Mosaic not found');
+    }
+});
+
+export { getMosaics, getMosaicById, deleteMosaic };
