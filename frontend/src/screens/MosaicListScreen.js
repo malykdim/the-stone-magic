@@ -4,7 +4,8 @@ import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message.js';
 import Loader from '../components/Loader.js';
-import { listMosaics, deleteMosaic } from '../actions/mosaicActions.js';
+import { listMosaics, deleteMosaic, createMosaic } from '../actions/mosaicActions.js';
+import { MOSAIC_CREATE_RESET } from '../constants/mosaicConstants.js';
 
 const MosaicListScreen = ({ history, match }) => {
     const dispatch = useDispatch();
@@ -14,17 +15,31 @@ const MosaicListScreen = ({ history, match }) => {
     
     const mosaicDelete = useSelector(state => state.mosaicDelete);
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = mosaicDelete;
-    
+        
+    const mosaicCreate = useSelector(state => state.mosaicCreate);
+    const { 
+        loading: loadingCreate, 
+        error: errorCreate, 
+        success: successCreate, 
+        mosaic: createdMosaic 
+    } = mosaicCreate;
+
     const userLogin = useSelector(state => state.userLogin);
     const { userInfo } = userLogin;
     
     useEffect(() => {
-        if (userInfo && userInfo.isAdmin) {
-            dispatch(listMosaics());
-        } else {
+        dispatch({ type: MOSAIC_CREATE_RESET });
+        
+        if (!userInfo.isAdmin) {
             history.push('/login');
-        }      
-    }, [dispatch, history, userInfo, successDelete]);
+        } 
+        
+        if (successCreate) {
+            history.push(`/admin/product/${createdMosaic._id}/edit`);
+        } else {
+            dispatch(listMosaics());
+        }
+    }, [dispatch, history, userInfo, successDelete, successCreate, createdMosaic]);
     
     const deleteHandler = (id) => {
         if (window.confirm('Are you sure')) {
@@ -32,8 +47,8 @@ const MosaicListScreen = ({ history, match }) => {
         }
     };
     
-    const createMosaicHandler = (mosaic) => {
-        // create mosaic
+    const createMosaicHandler = () => {
+        dispatch(createMosaic());
     };
     
     return (
@@ -50,6 +65,8 @@ const MosaicListScreen = ({ history, match }) => {
             </Row>
             {loadingDelete && <Loader />}
             {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+            {loadingCreate && <Loader />}
+            {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
             {loading 
                 ? <Loader /> 
                 : error 

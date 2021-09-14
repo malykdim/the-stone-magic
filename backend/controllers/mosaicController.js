@@ -40,4 +40,51 @@ const deleteMosaic = asyncHandler(async (req, res) => {
     }
 });
 
-export { getMosaics, getMosaicById, deleteMosaic };
+// @desc    Create a mosaic
+// @route   POST /api/products
+// @access  Private/Admin
+const createMosaic = asyncHandler(async (req, res) => {
+    const mosaic = new Mosaic({
+        caption: 'Mosaic Caption',
+        author: 'Vladimir Damyanov',
+        image: '/images/sample.jpg',        
+        price: 0,
+        width: 75,
+        height: 75,
+        materials: ['marble'],
+        countInStock: 1,
+        user: req.user._id,
+        numReviews: 0
+    });
+    
+    const createdMosaic = await mosaic.save();
+    res.status(201).json(createdMosaic);
+});
+
+// @desc    Update a mosaic
+// @route   PUT /api/products/:id
+// @access  Private/Admin
+const updateMosaic = asyncHandler(async (req, res) => {
+    const { caption, author, image, price, width, height, materials, countInStock } = req.body;
+    
+    const mosaic = await Mosaic.findById(req.params.id);
+    
+    if (mosaic) {
+        mosaic.caption = caption;
+        mosaic.author = author;
+        mosaic.image = image;      
+        mosaic.price = price;
+        mosaic.width = width;
+        mosaic.height = height;
+        mosaic.materials = materials;
+        mosaic.countInStock = countInStock;
+        
+        const updatedMosaic = await mosaic.save();
+        res.json(updatedMosaic);
+    } else {
+        res.status(404);
+        throw new Error('Mosaic not found');
+    }
+});
+
+export { getMosaics, getMosaicById, deleteMosaic, createMosaic, updateMosaic };

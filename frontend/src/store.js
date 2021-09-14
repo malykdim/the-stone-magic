@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { mosaicListReducer, mosaicDetailsReducer, mosaicDeleteReducer } from './reducers/mosaicReducers.js';
+import { mosaicListReducer, mosaicDetailsReducer, mosaicDeleteReducer, mosaicCreateReducer, mosaicUpdateReducer } from './reducers/mosaicReducers.js';
 import { cartReducer } from './reducers/cartReducers.js';
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer, userListReducer, userDeleteReducer, userUpdateReducer } from './reducers/userReducers.js';
 import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderMyListReducer } from './reducers/orderReducers.js'
@@ -10,6 +10,8 @@ const reducer = combineReducers({
     mosaicList: mosaicListReducer,
     mosaicDetails: mosaicDetailsReducer,
     mosaicDelete: mosaicDeleteReducer,
+    mosaicCreate: mosaicCreateReducer,
+    mosaicUpdate: mosaicUpdateReducer,
     cart: cartReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
