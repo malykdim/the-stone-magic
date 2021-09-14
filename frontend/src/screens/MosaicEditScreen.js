@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
@@ -7,7 +8,6 @@ import Loader from '../components/Loader.js';
 import FormContainer from '../components/FormContainer.js';
 import { listMosaicDetails, updateMosaic } from '../actions/mosaicActions.js';
 import { MOSAIC_UPDATE_RESET } from '../constants/mosaicConstants.js';
-// import { MOSAIC_UPDATE_RESET } from '../constants/mosaicConstants.js';
 
 const MosaicEditScreen = ({ match, history }) => {
     const mosaicId = match.params.id;
@@ -15,6 +15,7 @@ const MosaicEditScreen = ({ match, history }) => {
     const [caption, setCaption] = useState('');
     const [author, setAuthor] = useState('');
     const [image, setImage] = useState('');
+    const [uploading, setUploading] = useState(false);
     const [price, setPrice] = useState(0);
     const [width, setWidth] = useState(75);
     const [height, setHeight] = useState(75);
@@ -52,6 +53,29 @@ const MosaicEditScreen = ({ match, history }) => {
         }  
     }, [dispatch, history, mosaicId, mosaic, successUpdate]);
     
+    const uploadFileHandler = async (e) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('image', file);
+        setUploading(true);
+        
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            
+            const { data } = await axios.post('/api/upload', formData, config);
+            
+            setImage(data);
+            setUploading(false);
+        } catch (error) {
+            console.error(error);
+            setUploading(false);
+        }
+    };
+    
     const submitHandler = (e) => {
         e.preventDefault();
         
@@ -66,7 +90,7 @@ const MosaicEditScreen = ({ match, history }) => {
             materials, 
             countInStock 
         }));        
-    }
+    };
     
     return (
         <>
@@ -110,6 +134,13 @@ const MosaicEditScreen = ({ match, history }) => {
                                     value={image}
                                     onChange={(e) => setImage(e.target.value)}
                                 ></Form.Control>
+                                <Form.File 
+                                    id='image-file' 
+                                    label='Choose File' 
+                                    custom 
+                                    onChange={uploadFileHandler}                                
+                                ></Form.File>
+                                {uploading && <Loader />}
                             </Form.Group>                            
                             
                             <Form.Group controlId='price'>
