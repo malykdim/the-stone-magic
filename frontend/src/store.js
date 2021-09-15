@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { mosaicListReducer, mosaicDetailsReducer, mosaicDeleteReducer, mosaicCreateReducer, mosaicUpdateReducer } from './reducers/mosaicReducers.js';
 import { cartReducer } from './reducers/cartReducers.js';
 import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer, userListReducer, userDeleteReducer, userUpdateReducer } from './reducers/userReducers.js';
-import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderMyListReducer, orderListReducer } from './reducers/orderReducers.js'
+import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderDeliverReducer, orderMyListReducer, orderListReducer } from './reducers/orderReducers.js'
 
 const reducer = combineReducers({
     mosaicList: mosaicListReducer,
@@ -23,6 +23,7 @@ const reducer = combineReducers({
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,
+    orderDeliver: orderDeliverReducer,
     orderMyList: orderMyListReducer,
     orderList: orderListReducer
 });
