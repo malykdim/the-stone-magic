@@ -17,6 +17,7 @@ import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import MosaicListScreen from './screens/MosaicListScreen';
 import MosaicEditScreen from './screens/MosaicEditScreen';
+import OrderListScreen from './screens/OrderListScreen';
 
 const App = () => {
     return (
@@ -37,6 +38,7 @@ const App = () => {
                     <Route path='/admin/user/:id/edit' component={UserEditScreen} />
                     <Route path='/admin/productlist' component={MosaicListScreen} />
                     <Route path='/admin/product/:id/edit' component={MosaicEditScreen} />
+                    <Route path='/admin/orderlist' component={OrderListScreen} />
                     <Route path='/' component={HomeScreen} exact />
                 </Container>
             </main>
