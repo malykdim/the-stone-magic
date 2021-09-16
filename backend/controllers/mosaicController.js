@@ -87,4 +87,40 @@ const updateMosaic = asyncHandler(async (req, res) => {
     }
 });
 
-export { getMosaics, getMosaicById, deleteMosaic, createMosaic, updateMosaic };
+// @desc    Create new review
+// @route   POST /api/products/:id/reviews
+// @access  Private
+const createMosaicReview = asyncHandler(async (req, res) => {
+    const { rating, comment } = req.body;
+    
+    const mosaic = await Mosaic.findById(req.params.id);
+    
+    if (mosaic) {
+        const alreadyReviewed = mosaic.reviews.find(r => r.user.toString() === req.user._id.toString());
+        
+        if (alreadyReviewed) {
+            res.status(400);
+            throw new Error('Mosaic already reviewed');
+        };
+        
+        const review = {
+            username: req.user.username,
+            rating: Number(rating),
+            comment,
+            user: req.user._id
+        }
+        
+        mosaic.reviews.push(review);
+        
+        mosaic.numReviews = mosaic.reviews.length;
+        mosaic.rating = mosaic.reviews.reduce((acc, item) => item.rating + acc, 0) / mosaic.reviews.length;
+        
+        await mosaic.save();
+        res.status(201).json({ message: 'Review added' });
+    } else {
+        res.status(404);
+        throw new Error('Mosaic not found');
+    }
+});
+
+export { getMosaics, getMosaicById, deleteMosaic, createMosaic, updateMosaic, createMosaicReview };
