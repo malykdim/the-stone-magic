@@ -5,15 +5,24 @@ import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import Rating from '../components/Rating';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { listMosaicDetails } from '../actions/mosaicActions.js';
+import { listMosaicDetails, createMosaicReview } from '../actions/mosaicActions.js';
+import { MOSAIC_CREATE_REVIEW_RESET } from '../constants/mosaicConstants.js';
 
 const MosaicScreen = ({ history, match }) => {
     const [qty, setQty] = useState(1);
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState('');
     
     const dispatch = useDispatch();
     
     const mosaicDetails = useSelector(state => state.mosaicDetails);
     const { loading, error, mosaic } = mosaicDetails;
+    
+    const userLogin = useSelector(state => state.userLogin);
+    const { userInfo } = userLogin;
+    
+    const mosaicCreateReview = useSelector(state => state.mosaicCreateReview);
+    const { success: successMosaicReview, error: errorMosaicReview } = mosaicCreateReview;
     
     useEffect(() => {
         dispatch(listMosaicDetails(match.params.id));
@@ -31,6 +40,7 @@ const MosaicScreen = ({ history, match }) => {
                 : error
                 ? <Message variant='danger'>{error}</Message>
                 : (
+                    <>
                     <Row>
                         <Col md={6}>
                             <Image src={mosaic.image} alt={mosaic.caption} fluid></Image>
@@ -109,6 +119,22 @@ const MosaicScreen = ({ history, match }) => {
                             </Card>
                         </Col>
                     </Row> 
+                    <Row>
+                        <Col md={6}>
+                            <h2>Reviews</h2>
+                            {mosaic.reviews.length === 0 && <Message>No Reviews</Message>}
+                            <ListGroup variant='flush'>
+                                {mosaic.reviews.map(review => (
+                                    <ListGroup.Item key={review._id}>
+                                        <strong>{review.name}</strong>
+                                        <Rating value={review.rating} />
+                                        <p>{review.createdAt.substring(0, 10)}</p>
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                    </>
                 )
             }            
         </>

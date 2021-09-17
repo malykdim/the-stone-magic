@@ -3,6 +3,7 @@ import { MOSAIC_LIST_REQUEST, MOSAIC_LIST_SUCCESS, MOSAIC_LIST_FAIL,
         MOSAIC_DELETE_REQUEST, MOSAIC_DELETE_SUCCESS, MOSAIC_DELETE_FAIL,
         MOSAIC_CREATE_REQUEST, MOSAIC_CREATE_SUCCESS, MOSAIC_CREATE_FAIL, MOSAIC_CREATE_RESET, 
         MOSAIC_UPDATE_REQUEST, MOSAIC_UPDATE_SUCCESS, MOSAIC_UPDATE_FAIL, MOSAIC_UPDATE_RESET, 
+        MOSAIC_CREATE_REVIEW_REQUEST, MOSAIC_CREATE_REVIEW_SUCCESS, MOSAIC_CREATE_REVIEW_FAIL, MOSAIC_CREATE_REVIEW_RESET
 } from '../constants/mosaicConstants.js';
 
 export const mosaicListReducer = (state = { mosaics: [] }, action) => {
@@ -48,6 +49,16 @@ export const mosaicUpdateReducer = (state = { mosaic: {} }, action) => {
         case MOSAIC_UPDATE_SUCCESS: return { loading: false, success: true, mosaic: action.payload };
         case MOSAIC_UPDATE_FAIL: return { loading: false, error: action.payload };
         case MOSAIC_UPDATE_RESET: return { mosaic: {} };
+        default: return state;
+    }
+};
+
+export const mosaicCreateReviewReducer = (state = {}, action) => {
+    switch (action.type) {
+        case MOSAIC_CREATE_REVIEW_REQUEST: return { loading: true };
+        case MOSAIC_CREATE_REVIEW_SUCCESS: return { loading: false, success: true };
+        case MOSAIC_CREATE_REVIEW_FAIL: return { loading: false, error: action.payload };
+        case MOSAIC_CREATE_REVIEW_RESET: return {};
         default: return state;
     }
 };
