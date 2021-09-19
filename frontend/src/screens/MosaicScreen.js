@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Card, Button, Form, FormGroup } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -128,9 +128,41 @@ const MosaicScreen = ({ history, match }) => {
                                     <ListGroup.Item key={review._id}>
                                         <strong>{review.name}</strong>
                                         <Rating value={review.rating} />
-                                        <p>{review.createdAt.substring(0, 10)}</p>
+                                        <p>
+                                            &nbsp;
+                                            {review.createdAt.substring(0, 10)}
+                                        </p>
+                                        <p>
+                                            {review.comment}
+                                        </p>
                                     </ListGroup.Item>
                                 ))}
+                                <ListGroup.Item>
+                                    <h4>Write a Customer Review</h4>
+                                    {userInfo 
+                                        ? (
+                                            <Form onSubmit={submitHandler}>
+                                                <Form.Group controlId='rating'>
+                                                    <Form.Label>Rating</Form.Label>
+                                                    <Form.Control as='select' value={rating} onChange={(e) => setRating(e.target.value)}>
+                                                        <option value=''>Select...</option>
+                                                        <option value='1'>1 - Poor</option>
+                                                        <option value='2'>2 - Fair</option>
+                                                        <option value='3'>3 - Good</option>
+                                                        <option value='4'>4 - Very Good</option>
+                                                        <option value='5'>5 - Excellent</option>
+                                                    </Form.Control>
+                                                </Form.Group>
+                                                <Form.Group controlId='comment'>
+                                                    
+                                                </Form.Group>
+                                            </Form>
+                                        ) 
+                                        : <Message>
+                                            Please <Link to='/login'>sign in</Link> to write a review
+                                        </Message>
+                                    }
+                                </ListGroup.Item>
                             </ListGroup>
                         </Col>
                     </Row>
