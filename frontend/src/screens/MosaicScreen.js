@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Image, ListGroup, Card, Button, Form, FormGroup } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -25,11 +25,24 @@ const MosaicScreen = ({ history, match }) => {
     const { success: successMosaicReview, error: errorMosaicReview } = mosaicCreateReview;
     
     useEffect(() => {
+        if (successMosaicReview) {
+            alert('Review Submitted!');
+            setRating(0);
+            setComment('');
+            dispatch({ type: MOSAIC_CREATE_REVIEW_RESET });
+        }
+        
         dispatch(listMosaicDetails(match.params.id));
-    }, [dispatch, match]);
+    }, [dispatch, match, successMosaicReview]);
     
     const addToCartHandler = () => {
         history.push(`/cart/${match.params.id}?qty=${qty}`);
+    };
+    
+    const submitHandler = (e) => {
+        e.preventDefault();
+        
+        dispatch(createMosaicReview(match.params.id, { rating, comment }));
     };
     
     return (
@@ -139,6 +152,7 @@ const MosaicScreen = ({ history, match }) => {
                                 ))}
                                 <ListGroup.Item>
                                     <h4>Write a Customer Review</h4>
+                                    {errorMosaicReview && <Message variant='danger'>{errorMosaicReview}</Message>}
                                     {userInfo 
                                         ? (
                                             <Form onSubmit={submitHandler}>
@@ -154,8 +168,10 @@ const MosaicScreen = ({ history, match }) => {
                                                     </Form.Control>
                                                 </Form.Group>
                                                 <Form.Group controlId='comment'>
-                                                    
+                                                    <Form.Label>Comment</Form.Label>
+                                                    <Form.Control as='textarea' row='3' value={comment} onChange={(e) => setComment(e.target.value)}></Form.Control>
                                                 </Form.Group>
+                                                <Button type='submit' variant='primary'>Submit</Button>
                                             </Form>
                                         ) 
                                         : <Message>

@@ -6,15 +6,17 @@ import Message from '../components/Message.js';
 import Loader from '../components/Loader.js';
 import { listMosaics } from '../actions/mosaicActions.js';
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
+    const keyword = match.params.keyword;
+    
     const dispatch = useDispatch();
     
     const mosaicList = useSelector(state => state.mosaicList);
     const { loading, error, mosaics } = mosaicList;
     
     useEffect(() => {
-        dispatch(listMosaics());
-    }, [dispatch]);
+        dispatch(listMosaics(keyword));
+    }, [dispatch, keyword]);
     
     return (
         <>

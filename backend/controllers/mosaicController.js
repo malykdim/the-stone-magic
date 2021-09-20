@@ -5,7 +5,14 @@ import Mosaic from '../models/mosaicModel.js';
 // @route   GET /api/mosaics
 // @access  Public
 const getMosaics = asyncHandler(async (req, res) => {
-    const mosaics = await Mosaic.find({});
+    const keyword = req.query.keyword ? {
+        caption: {
+            $regex: req.query.keyword,
+            $options: 'i'
+        }
+    } : {};
+    
+    const mosaics = await Mosaic.find({ ...keyword });
     
     res.json(mosaics);
 });

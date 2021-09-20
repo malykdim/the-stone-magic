@@ -9,11 +9,11 @@ import {
     MOSAIC_CREATE_REVIEW_REQUEST, MOSAIC_CREATE_REVIEW_SUCCESS, MOSAIC_CREATE_REVIEW_FAIL, 
 } from '../constants/mosaicConstants.js';
 
-export const listMosaics = () => async (dispatch) => {
+export const listMosaics = (keyword = '') => async (dispatch) => {
     try {
         dispatch({ type: MOSAIC_LIST_REQUEST });
         
-        const { data } = await axios.get('/api/products');
+        const { data } = await axios.get(`/api/products?keyword=${keyword}`);
         
         dispatch({
             type: MOSAIC_LIST_SUCCESS,
